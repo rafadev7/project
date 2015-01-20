@@ -26,14 +26,14 @@ var transport = &oauth.Transport{
 // when user ask for [GET] /user/login
 // "Using methods of the resource"
 // Resource should have no child called login...
-func (l *Login) GET(w http.ResponseWriter, req *http.Request) {
+func (l *Login) GET(w http.ResponseWriter, req *http.Request, env Env) {
 	state := req.URL.Query().Get("method")
 	if state == "" { // The default is Json method, but it could be html too
 		state = "json"
 	}
 
 	// Set based on the server current url
-	transport.Config.RedirectURL = Env.Url + "logincallback/"
+	transport.Config.RedirectURL = env.Url + "logincallback/"
 
 	http.Redirect(w, req, transport.Config.AuthCodeURL(state), 302)
 }

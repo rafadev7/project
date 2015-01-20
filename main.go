@@ -1,31 +1,22 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"github.com/resourcerest/api"
 	"log"
+	"net/http"
 )
-
-var Env struct {
-	Url        string
-	Port       int
-	Production bool
-}
 
 var route *api.Route
 
+// Development Env
+var env = devEnv
+var prod bool
+
 func init() {
-	if false { // martini.Env == "production"
-		log.Println("Server in production")
-		Env.Port = 8000
-		Env.Url = "http://tur.ma/"
-		Env.Production = true
-	} else {
-		log.Println("Server in development")
-		Env.Port = 8000
-		Env.Url = fmt.Sprintf("http://localhost:%d/", Env.Port)
-		Env.Production = true
-	}
+
+	flag.BoolVar(&prod, "prod", false, "Production? True or False.")
 
 	resource, err := api.NewResource(Api{
 		Version: 0,
@@ -40,10 +31,19 @@ func init() {
 	}
 
 	// Print TESTS
-	api.PrintResource(resource)
-	api.PrintRoute(route)
+	//api.PrintResource(resource)
+	//api.PrintRoute(route)
 }
 
 func main() {
-	//server.Run(":8080")
+	flag.Parse()
+	if prod {
+		env = prodEnv
+	}
+
+	// Starting de HTTP server
+	log.Println("Starting HTTP server in " + env.Url + " ...")
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", env.Port), route); err != nil {
+		log.Fatalf("Server Fatal: %s\n", err)
+	}
 }
