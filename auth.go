@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"code.google.com/p/goauth2/oauth"
@@ -11,10 +12,10 @@ import (
 type Auth struct{}
 
 var config = &oauth.Config{
-	ClientId:     "560046220732101",
-	ClientSecret: "18d10b619523227e65ecf5b38fc18f90",
+	ClientId:     "400554146779733",
+	ClientSecret: "f3860a201ccbdfb0a95bb32ba1cfe131",
 	//RedirectURL:   // It is setted dynamicaly on LoginHandler based on server current url
-	Scope:    "basic_info email",
+	Scope:    "public_profile user_friends  email",
 	AuthURL:  "https://www.facebook.com/dialog/oauth",
 	TokenURL: "https://graph.facebook.com/oauth/access_token",
 }
@@ -33,7 +34,9 @@ func (l *Auth) GETLogin(w http.ResponseWriter, req *http.Request, env Env) {
 	}
 
 	// Set based on the server current url
-	transport.Config.RedirectURL = env.Url + "logincallback/"
+	transport.Config.RedirectURL = env.Url + "api/auth/callback"
+
+	log.Println("*** R:", transport.Config.RedirectURL)
 
 	http.Redirect(w, req, transport.Config.AuthCodeURL(state), 302)
 }

@@ -48,7 +48,7 @@ func TestPOSTContent(t *testing.T) {
 	}
 
 	w := httptest.NewRecorder()
-	req, err := http.NewRequest("POST", "/api/categories/internet/contents", bytes.NewBuffer(b))
+	req, err := http.NewRequest("POST", "/api/categories/internet/contents?fasfa", bytes.NewBuffer(b))
 	if err != nil {
 		log.Panic(err)
 	}

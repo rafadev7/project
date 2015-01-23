@@ -25,6 +25,7 @@ func init() {
 	resource, err := api.NewResource(Api{
 		Version: 0,
 		DB:      db,
+		Env:     env,
 	})
 	if err != nil {
 		log.Fatalf("Server Fatal: %s\n", err)

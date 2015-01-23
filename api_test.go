@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/resourcerest/api"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -27,5 +28,17 @@ func XTestApi(t *testing.T) {
 	fmt.Printf("%s", w.Body.String())
 
 	fmt.Println("\n--- End Test Main ---\n")
+}
+
+//
+// Test Main
+//
+func XTestPrint(t *testing.T) {
+
+	fmt.Println("\n--- Test Print ---\n")
+
+	api.PrintRoute(route)
+
+	fmt.Println("\n--- End Test Print ---\n")
 
 }
