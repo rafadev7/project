@@ -11,7 +11,7 @@ import (
 //
 // Test Main
 //
-func TestApi(t *testing.T) {
+func XTestApi(t *testing.T) {
 
 	fmt.Println("\n--- Test API ---\n")
 

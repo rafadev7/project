@@ -11,7 +11,11 @@ import (
 var route *api.Route
 
 // Development Env
-var env = devEnv
+var env = Env{
+	Url:        "http://localhost:8080/",
+	Port:       8080,
+	Production: false,
+}
 var prod bool
 
 func init() {
@@ -20,6 +24,7 @@ func init() {
 
 	resource, err := api.NewResource(Api{
 		Version: 0,
+		DB:      db,
 	})
 	if err != nil {
 		log.Fatalf("Server Fatal: %s\n", err)
@@ -38,7 +43,11 @@ func init() {
 func main() {
 	flag.Parse()
 	if prod {
-		env = prodEnv
+		env = Env{
+			Url:        "http://localhost:8080/",
+			Port:       8080,
+			Production: true,
+		}
 	}
 
 	// Starting de HTTP server
